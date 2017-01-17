@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script src="jquery-3.1.1.min.js"></script>
+	<title></title>
+
+	<style type="text/css">
+
+	table {
+		width: 700px;
+		height: 700px;
+		margin: 20px auto 20px;
+		border-collapse: collapse;
+	}
+		table, td, tr {
+			border: 3px solid black
+			
+		}
+
+		td {
+			text-align: center;
+			font-weight: bold;
+			font-size: 22px;
+			min-width: 50px;
+			min-height: 50px;
+		}
+
+		.mid {
+			text-align: center;
+		}
+	</style>
+</head>
+<body>
+
+
+
+
+<div class="mid">
+<br><br>
+ <br>
+<br>
+Rows:&nbsp<input type="text" name="rows">
+<br><br>
+Cells:&nbsp<input type="text" name="cells">
+<br><br>
+
+<input type="button" name="set_table" value="Set Table"> <input type="button" name="reset" value="reset">
+</div>
+
+
+<script type="text/javascript">
+	
+	$(document).ready(function() {
+		
+			var set = $('input[name=set_table]');
+			
+			set.on('click', function() {
+				$('table').remove();
+				var rows = $('input[name=rows]').val(),
+				cells = $('input[name=cells]').val(),
+				counter = 0;
+
+				if (rows && cells > 0 ) {
+					
+					buildTable(rows, cells);
+				} 
+				
+				for (var i = 0; i <= cells; i++) {
+
+					$('table tr:nth-child(1) td:eq('+i+')').html(i);
+					
+				}
+
+				for (var i = 0; i <= rows; i++) {
+					$('table tr td:first-child:eq('+i+')').html(i);
+				}
+
+
+				$('table tr:nth-child(1), table tr td:first-child').css('background', 'teal');
+				
+
+				$('table tr').find('td').hover(function() {
+					$(this).css('background', 'red');
+					$(this).parent().find('td:first').css({'background': 'red', 'color': 'blue'});
+					var x = $(this).index();
+					$('table tr:first td:eq('+x+')').css({'background': 'red', 'color': 'blue'});
+
+				}, function() {
+				$(this).css('background', '#fff');
+					$('table tr:nth-child(1), table tr td:first-child').css({'background': 'teal', 'color': 'black'});
+					var x = $(this).index();
+					$('table tr:first td:eq('+x+')').css({'background': 'teal', 'color': 'black'});
+					
+					
+				});
+
+				$('table tr td').on('click', function() {
+					var x = $(this).index(),
+						y = $(this).parent().index(),
+						colors = ['red', 'green','yellow','purple','blue','pink','gold','orange', 'aqua', 'brown','coral', 'crimson','indigo','khaki', 'lawngreen', 'maroon','magneta'],
+						results = x * y;
+						if (x > 0 && y > 0) {
+
+							$(this).html(results).css('color', colors[counter % 17]);
+							counter++;
+							
+						}
+				});
+
+			});
+			
+
+			function buildTable(rowNum, cellNum) {
+
+			var table = '<table>'
+			
+			for (var i = 0; i <= rowNum; i++) {
+				table += '<tr>';
+
+				for (var j = 0; j <= cellNum; j++) {
+					table += '<td></td>';
+				}
+
+				table += '</tr>';
+			}
+
+			table+= '</table>';
+
+			$('body').prepend(table);
+
+			}
+
+		
+		$('input[name=reset]').on('click', function() {
+			$('table tr:gt(0)').find('td:gt(0)').html('');
+		});
+
+
+	}); // End
+</script>
+</body>
+</html>
