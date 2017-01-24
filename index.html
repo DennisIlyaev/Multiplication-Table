@@ -51,17 +51,17 @@ Cells:&nbsp<input type="text" name="cells">
 <script type="text/javascript">
 	
 	$(document).ready(function() {
-		
-			var set = $('input[name=set_table]');
-			
-			set.on('click', function() {
+
+			document.onkeypress = function(e) {
+				if (e.keyCode === 13) {
 				$('table').remove();
 				var rows = $('input[name=rows]').val(),
 				cells = $('input[name=cells]').val(),
 				counter = 0;
 
 				if (rows && cells > 0 ) {
-					
+				
+
 					buildTable(rows, cells);
 				} 
 				
@@ -79,7 +79,7 @@ Cells:&nbsp<input type="text" name="cells">
 				$('table tr:nth-child(1), table tr td:first-child').css('background', 'teal');
 				
 
-				$('table tr').find('td').hover(function() {
+				$('table tr td').hover(function() {
 					$(this).css('background', 'red');
 					$(this).parent().find('td:first').css({'background': 'red', 'color': 'blue'});
 					var x = $(this).index();
@@ -105,7 +105,64 @@ Cells:&nbsp<input type="text" name="cells">
 							counter++;
 							
 						}
+				   });
+				}
+			}
+
+			var set = $('input[name=set_table]');
+			
+			set.on('click', function() {
+								$('table').remove();
+				var rows = $('input[name=rows]').val(),
+				cells = $('input[name=cells]').val(),
+				counter = 0;
+
+				if (rows && cells > 0 ) {
+				
+					buildTable(rows, cells);
+				} 
+				
+				for (var i = 0; i <= cells; i++) {
+
+					$('table tr:nth-child(1) td:eq('+i+')').html(i);
+					
+				}
+
+				for (var i = 0; i <= rows; i++) {
+					$('table tr td:first-child:eq('+i+')').html(i);
+				}
+
+
+				$('table tr:nth-child(1), table tr td:first-child').css('background', 'teal');
+				
+
+				$('table tr td').hover(function() {
+					$(this).css('background', 'red');
+					$(this).parent().find('td:first').css({'background': 'red', 'color': 'blue'});
+					var x = $(this).index();
+					$('table tr:first td:eq('+x+')').css({'background': 'red', 'color': 'blue'});
+
+				}, function() {
+				$(this).css('background', '#fff');
+					$('table tr:nth-child(1), table tr td:first-child').css({'background': 'teal', 'color': 'black'});
+					var x = $(this).index();
+					$('table tr:first td:eq('+x+')').css({'background': 'teal', 'color': 'black'});
+					
+					
 				});
+
+				$('table tr td').on('click', function() {
+					var x = $(this).index(),
+						y = $(this).parent().index(),
+						colors = ['red', 'green','yellow','purple','blue','pink','gold','orange', 'aqua', 'brown','coral', 'crimson','indigo','khaki', 'lawngreen', 'maroon','magneta'],
+						results = x * y;
+						if (x > 0 && y > 0) {
+
+							$(this).html(results).css('color', colors[counter % 17]);
+							counter++;
+							
+						}
+				   });
 
 			});
 			
@@ -136,7 +193,9 @@ Cells:&nbsp<input type="text" name="cells">
 		});
 
 
-	}); // End
+	}); // End 
+
+	// <form action="javascript:void(0)" = it wont reload the page after submit.
 </script>
 </body>
 </html>
